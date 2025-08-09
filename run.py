@@ -9,4 +9,4 @@ def web():
     return app.send_static_file('index.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=11223, debug=False)
+    app.run(host='0.0.0.0', port=11223, debug=False,threaded=True)

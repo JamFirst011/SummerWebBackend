@@ -25,7 +25,6 @@ def login():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
-    time.sleep(2)
     return _login(username, password)
 
 @user_blueprint.route('/register',methods=['POST'])
@@ -35,7 +34,6 @@ def register():
     返回值： {status:True/False, msg:'Success/Fail'}
     '''
     data = request.get_json()
-    time.sleep(2)
     return _register(data)
 
 @user_blueprint.route('/add-box',methods=['POST'])
