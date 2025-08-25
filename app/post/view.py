@@ -1,6 +1,6 @@
 from flask import Flask,request,Blueprint
 import typing as t
-from app.post.post import _send_post,_syn
+from app.post.post import _send_post,_syn,_post_detail
 import time
 
 post_blueprint = Blueprint('post', __name__,url_prefix='/post')
@@ -22,3 +22,12 @@ def syn():
     返回参数：{status : True/False,Posts : []}
     '''
     return _syn()
+
+@post_blueprint.route('/post-detail',methods=['POST'])
+def post_detail():
+    '''
+    接受参数：{id : int}
+    返回参数：{status : True/False,post : {}}
+    '''
+    data = request.get_json()
+    return _post_detail(data['id'])

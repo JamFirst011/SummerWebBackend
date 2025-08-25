@@ -9,13 +9,12 @@ def _login(name,pwd):
     if os.path.exists(user_path):
         with open(user_path, 'r') as f:
             user_info = json.load(f)
-            if user_info['password'] == pwd:
-                return jsonify({'status': True, 'msg': 'Login Success', 'extra_info': user_info})
-            else: 
-                return jsonify({'status': False, 'msg': 'Password Error', 'extra_info': {}})
+        if user_info['password'] == pwd:
+            return jsonify({'status': True, 'msg': 'Login Success', 'extra_info': user_info})
+        else: 
+            return jsonify({'status': False, 'msg': 'Password Error', 'extra_info': {}})
     else :
         return jsonify({'status': False, 'msg': 'User Not Found','extra_info': {}})
-    return False
 
 def _register(data):
     name = data.get('username')
@@ -23,10 +22,11 @@ def _register(data):
     if not os.path.exists(user_path):
         with open(user_path, 'w') as f:
             init_info = data
+            init_info['id'] = _allocate_user_id()
             init_info['inventories'] = []
             init_info['orders'] = []
             json.dump(init_info, f,ensure_ascii=False,indent=4)
-        return jsonify({'status': True, 'msg': 'Register Success'})
+        return jsonify({'status': True, 'msg': 'Register Success','id': init_info['id']})
     else : return jsonify({'status': False, 'msg': 'User has Registered, Please Login dirrectly'})
 
 def _add_box(name,boxes,cmd):
@@ -73,3 +73,6 @@ def _add_order(name,order_id, order_name, order_num, order_price, order_time, cm
     with open(user_path,'w') as f:
         json.dump(user_info, f, ensure_ascii=False, indent=4)
     return jsonify({'status': True, 'msg': 'Success'})
+
+def _allocate_user_id():
+    return len(os.listdir(path))
